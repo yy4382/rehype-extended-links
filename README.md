@@ -125,14 +125,6 @@ type Content =
   | undefined;
 ```
 
-### `PreContentMap`
-
-Map from regex (matching href url) to Content (TypeScript type).
-
-```typescript
-export type PreContentMap = Map<RegExp, Content>;
-```
-
 ### `Options`
 
 ###### Fields
@@ -142,9 +134,7 @@ export type PreContentMap = Map<RegExp, Content>;
   — content to insert at the end of external links; will be inserted in a
   `<span>` element; useful for improving accessibility by giving users
   advanced warning when opening a new window
-- `preContentMap` ([`PreContentMap`](#precontentmap), optional)
-  — map from regex (matching href url) to Content; will be inserted in a
-  `<span>` element; can be used to add icon for specific external links
+- `preContent` The same as `content`, but it will be inserted at the beginning of the link.
 - `properties` ([`CreateProperties`][api-create-properties] or
   [`Properties`][hast-properties], optional)
   — properties to add to the link itself
@@ -175,7 +165,7 @@ type Target = "_blank" | "_parent" | "_self" | "_top";
 
 ## Note
 
-If `content` or `preContentMap` is set, the `<a>` label will be wrapped in a span.
+If `content` or `preContent` is set, the `<a>` label will be wrapped in a span.
 
 ## Examples
 
