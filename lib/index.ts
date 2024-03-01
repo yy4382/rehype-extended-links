@@ -15,8 +15,6 @@ type Content =
   | null
   | undefined;
 
-export type PreContentMap = Map<RegExp, Content>;
-
 type CreateContent = (
   element: Element,
 ) => ElementContent[] | ElementContent | null | undefined;
@@ -31,7 +29,7 @@ type Target = "_blank" | "_self" | "_parent" | "_top";
 
 export interface Options {
   content?: Content;
-  preContentMap?: PreContentMap;
+  preContent?: Content;
   properties?: CreateProperties | Properties | null | undefined;
   protocols?: string[] | null | undefined;
   rel?: string[] | CreateRel | null | undefined;
@@ -73,14 +71,11 @@ export default function rehypeExtendedLinks(
             contentRaw && !Array.isArray(contentRaw)
               ? [contentRaw]
               : contentRaw;
-          let preContentMapRaw = settings.preContentMap;
-          const preContentMap: Map<RegExp, ElementContent[]> = new Map();
-          preContentMapRaw?.forEach((value, key, map) => {
-            const ele = createIfNeeded(value, node);
-            if (!ele) return;
-            const eleArr = Array.isArray(ele) ? ele : [ele];
-            preContentMap.set(key, eleArr);
-          });
+          const preContentRaw = createIfNeeded(settings.preContent, node);
+          const preContent =
+            preContentRaw && !Array.isArray(preContentRaw)
+              ? [preContentRaw]
+              : preContentRaw;
 
           const relRaw = createIfNeeded(settings.rel, node) || defaultRel;
           const rel = typeof relRaw === "string" ? parse(relRaw) : relRaw;
@@ -88,7 +83,7 @@ export default function rehypeExtendedLinks(
 
           const properties = createIfNeeded(settings.properties, node);
 
-          const wrapped = content || preContentMap.size;
+          const wrapped = content || preContent;
 
           if (properties) {
             if (!properties.className) properties.className = [];
@@ -128,12 +123,8 @@ export default function rehypeExtendedLinks(
             node.children.push(...content);
           }
 
-          if (preContentMap) {
-            for (const [regex, content] of preContentMap) {
-              if (regex.test(url)) {
-                node.children.unshift(...content);
-              }
-            }
+          if (preContent) {
+            node.children.unshift(...preContent);
           }
         }
       }
