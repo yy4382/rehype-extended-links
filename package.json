@@ -1,7 +1,7 @@
 {
     "name": "rehype-extended-links",
-    "version": "1.0.0",
-    "description": "",
+    "version": "1.0.1",
+    "description": "Extended link handling for rehype",
     "main": "dist/lib/index.js",
     "files": [
         "dist",
