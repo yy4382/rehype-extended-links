@@ -21,14 +21,14 @@ pnpm add rehype-extended-links
 ## Use
 
 ```javascript
-import rehypeExtendedLinks from 'rehype-extended-links'
-import {rehype} from 'rehype'
+import rehypeExtendedLinks from "rehype-extended-links";
+import { rehype } from "rehype";
 const file = await rehype()
-  .use(rehypeExtendedLinks, {rel: ['nofollow']})
+  .use(rehypeExtendedLinks, { rel: ["nofollow"] })
   .use(rehypeStringify)
-  .process('<a href="https://example.com">Example</a>')
+  .process('<a href="https://example.com">Example</a>');
 
-console.log(String(file))
+console.log(String(file));
 ```
 
 ## API
@@ -42,8 +42,8 @@ Automatically add `rel` (and `target`?) to external links.
 
 ###### Parameters
 
-*   `options` ([`Options`](#options), optional)
-    — configuration
+- `options` ([`Options`](#options), optional)
+  — configuration
 
 ###### Returns
 
@@ -66,8 +66,8 @@ Create a target for the element (TypeScript type).
 
 ###### Parameters
 
-*   `element` ([`Element`][hast-element])
-    — element to check
+- `element` ([`Element`][hast-element])
+  — element to check
 
 ###### Returns
 
@@ -79,8 +79,8 @@ Create properties for an element (TypeScript type).
 
 ###### Parameters
 
-*   `element` ([`Element`][hast-element])
-    — element to check
+- `element` ([`Element`][hast-element])
+  — element to check
 
 ###### Returns
 
@@ -92,8 +92,8 @@ Create a `rel` for the element (TypeScript type).
 
 ###### Parameters
 
-*   `element` ([`Element`][hast-element])
-    — element to check
+- `element` ([`Element`][hast-element])
+  — element to check
 
 ###### Returns
 
@@ -105,8 +105,8 @@ Create a `target` for the element (TypeScript type).
 
 ###### Parameters
 
-*   `element` ([`Element`][hast-element])
-    — element to check
+- `element` ([`Element`][hast-element])
+  — element to check
 
 ###### Returns
 
@@ -117,7 +117,12 @@ Create a `target` for the element (TypeScript type).
 Content to add to the link (TypeScript type). A wrapper for [`Element`][hast-element].
 
 ```typescript
-type Content = ElementContent[] | CreateContent | ElementContent | null | undefined;
+type Content =
+  | ElementContent[]
+  | CreateContent
+  | ElementContent
+  | null
+  | undefined;
 ```
 
 ### `PreContentMap`
@@ -132,31 +137,31 @@ export type PreContentMap = Map<RegExp, Content>;
 
 ###### Fields
 
-*   `content` (`Array<Node>`, [`CreateContent`][api-create-content], or `Node`,
-    optional)
-    — content to insert at the end of external links; will be inserted in a
-    `<span>` element; useful for improving accessibility by giving users
-    advanced warning when opening a new window
-*   `preContentMap` ([`PreContentMap`](#precontentmap), optional)
-    — map from regex (matching href url) to Content; will be inserted in a
-    `<span>` element; can be used to add icon for specific external links
-*   `properties` ([`CreateProperties`][api-create-properties] or
-    [`Properties`][hast-properties], optional)
-    — properties to add to the link itself
-*   `protocols` (`Array<string>`, default: `['http', 'https']`)
-    — protocols to see as external, such as `mailto` or `tel`
-*   `rel` (`Array<string>`, [`CreateRel`][api-create-rel], or `string`,
-    default: `['nofollow']`)
-    — [link types][mdn-rel] to hint about the referenced documents; pass an
-    empty array (`[]`) to not set `rel`s on links; when using a `target`, add `noopener`
-    and `noreferrer` to avoid exploitation of the `window.opener` API
-*   `target` ([`CreateTarget`][api-create-target] or [`Target`][api-target],
-    optional)
-    — how to display referenced documents; the default (nothing) is to not set
-    `target`s on links
-*   `test` ([`Test`][is-test], optional)
-    — extra test to define which external link elements are modified; any test
-    that can be given to `hast-util-is-element` is supported
+- `content` (`Array<Node>`, [`CreateContent`][api-create-content], or `Node`,
+  optional)
+  — content to insert at the end of external links; will be inserted in a
+  `<span>` element; useful for improving accessibility by giving users
+  advanced warning when opening a new window
+- `preContentMap` ([`PreContentMap`](#precontentmap), optional)
+  — map from regex (matching href url) to Content; will be inserted in a
+  `<span>` element; can be used to add icon for specific external links
+- `properties` ([`CreateProperties`][api-create-properties] or
+  [`Properties`][hast-properties], optional)
+  — properties to add to the link itself
+- `protocols` (`Array<string>`, default: `['http', 'https']`)
+  — protocols to see as external, such as `mailto` or `tel`
+- `rel` (`Array<string>`, [`CreateRel`][api-create-rel], or `string`,
+  default: `['nofollow']`)
+  — [link types][mdn-rel] to hint about the referenced documents; pass an
+  empty array (`[]`) to not set `rel`s on links; when using a `target`, add `noopener`
+  and `noreferrer` to avoid exploitation of the `window.opener` API
+- `target` ([`CreateTarget`][api-create-target] or [`Target`][api-target],
+  optional)
+  — how to display referenced documents; the default (nothing) is to not set
+  `target`s on links
+- `test` ([`Test`][is-test], optional)
+  — extra test to define which external link elements are modified; any test
+  that can be given to `hast-util-is-element` is supported
 
 ### `Target`
 
@@ -165,7 +170,7 @@ Target (TypeScript type).
 ###### Type
 
 ```ts
-type Target = '_blank' | '_parent' | '_self' | '_top'
+type Target = "_blank" | "_parent" | "_self" | "_top";
 ```
 
 ## Note
@@ -174,30 +179,19 @@ If `content` or `preContentMap` is set, the `<a>` label will be wrapped in a spa
 
 ## Examples
 
-See in [test](test/index.test.ts). 
+See in [test](test/index.test.ts).
 
 <!-- Definitions -->
 
 [hast-properties]: https://github.com/syntax-tree/hast#properties
-
 [hast-element]: https://github.com/syntax-tree/hast#element
-
 [is-test]: https://github.com/syntax-tree/hast-util-is-element#test
-
 [g201]: https://www.w3.org/WAI/WCAG21/Techniques/general/G201
-
 [css-tricks]: https://css-tricks.com/use-target_blank/
-    
 [api-create-content]: #createcontent
-
 [api-create-properties]: #createproperties
-
 [api-create-rel]: #createrel
-
 [api-create-target]: #createtarget
-
 [api-options]: #options
-
 [api-target]: #target
-
 [api-rehype-external-links]: #unifieduserehypeexternallinks-options
