@@ -4,7 +4,7 @@
     "description": "Extended link handling for rehype",
     "main": "dist/lib/index.js",
     "files": [
-        "dist",
+        "dist/lib",
         "LICENSE",
         "README.md"
     ],

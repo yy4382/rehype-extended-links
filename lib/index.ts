@@ -31,6 +31,7 @@ export interface Options {
   content?: Content;
   preContent?: Content;
   properties?: CreateProperties | Properties | null | undefined;
+  wrappedProperties?: Properties | null | undefined;
   protocols?: string[] | null | undefined;
   rel?: string[] | CreateRel | null | undefined;
   target?: CreateTarget | Target | null | undefined;
@@ -54,9 +55,6 @@ export default function rehypeExtendedLinks(
       if (
         node.tagName === "a" &&
         typeof node.properties.href === "string" &&
-        !(node.properties.className as string[] | undefined)?.includes(
-          "wrapped-link",
-        ) &&
         is(node, index, parent)
       ) {
         const url = node.properties.href;
@@ -86,18 +84,7 @@ export default function rehypeExtendedLinks(
           const wrapped = content || preContent;
 
           if (properties) {
-            if (!properties.className) properties.className = [];
-            if (properties.className === true) properties.className = [];
-            let className = Array.isArray(properties.className)
-              ? properties.className
-              : [properties.className];
-            if (wrapped) className.push("wrapped-link");
-            properties.className = className;
             Object.assign(node.properties, structuredClone(properties));
-          } else if (wrapped) {
-            Object.assign(node.properties, {
-              className: ["wrapped-link"],
-            });
           }
 
           if (rel.length > 0) {
@@ -110,14 +97,16 @@ export default function rehypeExtendedLinks(
 
           if (!wrapped) return;
 
-          const rawNode = structuredClone(node);
-
-          node.tagName = "span";
-          node.properties = {
-            className: ["wrapped-link-container"],
-          };
-          node.children = [rawNode];
-          node.content = undefined;
+          if (settings.wrappedProperties) {
+            const rawContent = structuredClone(node.children);
+            const children: Element = {
+              type: "element",
+              tagName: "span",
+              children: rawContent,
+              properties: settings.wrappedProperties,
+            };
+            node.children = [children];
+          }
 
           if (content) {
             node.children.push(...content);
