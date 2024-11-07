@@ -1,6 +1,6 @@
 import rehypeExtendedLinks from "../lib/index.js";
 import type { Options } from "../lib/index.ts";
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { rehype } from "rehype";
 
 describe("Package", () => {

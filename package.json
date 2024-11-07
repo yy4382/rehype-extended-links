@@ -15,7 +15,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "test": "tsc && mocha \"./dist/test/*.{js,cjs,mjs}\"",
+    "test": "vitest --run",
     "format": "prettier --write .",
     "check-types": "tsc --noEmit"
   },
@@ -41,16 +41,11 @@
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.20",
     "@types/hast": "^3.0.4",
-    "@types/mocha": "^10.0.9",
-    "@types/sinon": "^17.0.3",
-    "chai": "^5.1.1",
-    "mocha": "^10.7.3",
     "prettier": "^3.3.3",
     "rehype": "^13.0.2",
-    "sinon": "^17.0.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
   },
   "prettier": {
     "tabWidth": 2
