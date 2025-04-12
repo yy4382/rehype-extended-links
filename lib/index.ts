@@ -124,7 +124,6 @@ export default function rehypeExtendedLinks(
 function createIfNeeded<T>(
   value: T,
   element: Element,
-  // @ts-ignore
-): T extends Function ? ReturnType<T> : T {
-  return typeof value === "function" ? value(element) : value;
+): T extends ((...args: any) => any) ? ReturnType<T> : T {
+  return (typeof value === "function" ? value(element) : value) as T extends ((...args: any) => any) ? ReturnType<T> : T;
 }
